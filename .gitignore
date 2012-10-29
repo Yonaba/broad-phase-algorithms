@@ -1,0 +1,5 @@
+main.lua
+uniform-grid/luadoc/*
+uniform-grid/DocGenerate.bat
+Thumbs.db
+.DS_Store
