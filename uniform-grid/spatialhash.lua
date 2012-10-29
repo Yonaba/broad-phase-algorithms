@@ -92,11 +92,12 @@ local function __addShapeToBucket(hash,shape,xmin,ymin)
   local bucketIndex = getHashIndex(xmin,ymin,hash.__cols)
   local bucketIndexSize = #hash.__array[bucketIndex]
   hash.__array[bucketIndex][bucketIndexSize+1]= shape
+  return bucketIndex
 end
 
 -- Removes a shape from a bucket in a hash
 local function __removeShapeFromBucket(hash,shape)
-  local bucketIndex = getHashIndex(shape.xmin,shape.ymin,hash.__cols)
+  local bucketIndex = shape.index
   local bucketIndexSize = #hash.__array[bucketIndex]
   for i = 1,bucketIndexSize do
     if shape == hash.__array[bucketIndex][i] then
@@ -155,7 +156,7 @@ function SpatialHash:addShape(shape)
   local xmin, ymin = shape:getAABB()
   xmin, ymin = spaceToGrid(xmin,ymin,self.cellSize)
   xmin, ymin = clampToGrid(xmin, ymin, self.__cols, self.__rows)
-  __addShapeToBucket(self,shape,xmin,ymin)
+  shape.index = __addShapeToBucket(self,shape,xmin,ymin)
   shape.xmin, shape.ymin = xmin, ymin
 end
 
@@ -174,7 +175,7 @@ function SpatialHash:updateShape(shape)
   xmin, ymin = clampToGrid(xmin,ymin,self.__cols, self.__rows)
   if (xmin == shape.xmin and ymin == shape.ymin) then return end
   __removeShapeFromBucket(self,shape)
-  __addShapeToBucket(self,shape,xmin,ymin)
+  shape.index = __addShapeToBucket(self,shape,xmin,ymin)
   shape.xmin, shape.ymin = xmin, ymin
 end
 
