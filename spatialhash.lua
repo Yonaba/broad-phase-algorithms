@@ -182,6 +182,7 @@ end
 --- Returns a set of potentially colliding-pairs involving a given shape
 -- @param shape a <tt>shape</tt>
 -- @return an array-list of shapes in bounding-box collision with a given shape
+-- @return the number of bounding-box collision checks made
 function SpatialHash:getCollidingWith(shape)
   array_list = {}
   local checks = 0
@@ -209,6 +210,7 @@ end
 --- Returns a list of potentially colliding-pairs
 -- @param shapes an array list of <tt>shape</tt> objects
 -- @return an array-list of pairs in mutual bounding-box collision
+-- @return the number of bounding-box collision checks made
 function SpatialHash:getCollidingPairs(shapes)
   array_pairs = {}
   local checks = 0
