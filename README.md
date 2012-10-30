@@ -1,16 +1,16 @@
 broad-phase-algorithms
 ======================
 
-Various space partitioning techniques implemented in [Lua](http://www.lua.org) for faster [broad-phase collision detection](http://www.metanetsoftware.com/technique/tutorialB.html).
-See [Notes]()
+Various *space partitioning* techniques implemented in [Lua](http://www.lua.org) for [broad-phase collision detection](http://www.metanetsoftware.com/technique/tutorialB.html).<br/>
+See [Notes](https://github.com/Yonaba/broad-phase-algorithms/blob/master/Notes.md)
 
 ##Spatial Hashes
 
 ###Resources
 
-* Source code: [link]()
-* Documentation: [link]()
-* Demo: See [downloads]()
+* __Source code__: see [spatialhash.lua](https://github.com/Yonaba/broad-phase-algorithms/blob/master/spatialhash.lua)
+* __Documentation__: see [docs/spatialhash](https://github.com/Yonaba/broad-phase-algorithms/blob/master/docs/spatialhash)
+* __Demo__: see [downloads](https://github.com/Yonaba/broad-phase-algorithms/downloads)
 
 ###Example of use
 
@@ -49,7 +49,7 @@ end
 print('Colliding pairs')
 local colliding = grid:getCollidingPairs(shapes)
 table.foreach(colliding,
-	function(_,v) print(('Shape(%d) collides with Shape(%d)'):format(v[1].id,v[2].id)) end)
+  function(_,v) print(('Shape(%d) collides with Shape(%d)'):format(v[1].id,v[2].id)) end)
 
 
 -- Let's move our shapes

@@ -1,44 +1,48 @@
 broad-phase-algorithms
 ======================
 
-Various space partitioning techniques implemented in [Lua](http://www.lua.org) for faster broad-phase collision detection :
+Various *space partitioning* techniques implemented in [Lua](http://www.lua.org) for [broad-phase](http://www.metanetsoftware.com/technique/tutorialB.html) collision detection.
 
 ##What for ?
-[Collision detection](http://en.wikipedia.org/wiki/Collision_detection) is a fundamental topic, feaured in a wide range of applications, such as computer games,
-physically-based simulations, etc. Although simple with fewer number of entities, it can turn into a bottleneck,
-especially when dealing with growing numbers of moving objects.
+[Collision detection](http://en.wikipedia.org/wiki/Collision_detection) is a fundamental topic, featured in a wide range of applications, such as *computer games*,
+*physically-based simulations*, etc. Although simple with *a few* number of entities, it can turn into a bottleneck,
+especially when dealing with *growing numbers* of moving objects.
 
-Suppose that we are rendering 100 objects, and we need to check if they are colliding (i.e overlapping or not).
-The first common (and naive) approach would be testing each objects against the others:
+Suppose that we are rendering *100* objects, and we need to check (each frame) if they are colliding (i.e overlapping) or not.
+The first common (and naive) approach would be testing *each object against others*.
 
+```lua
 for i = 1,100 do
   for j = 1,100 do
     if i~=j then
-	  collisionTest(object[i], object[j])
-	end
+      collisionTest(object[i], object[j])
+	  end
   end
 end  
+```
 
-That will result in __9900__ collision tests.
-A second approach (a bit more clever) would take advantage of the __commutative nature__ of collisions (i.e *A-collides-B* equals *B-collides-A*).
-Therefore, the test above could be reduced to :
+This will result in __9900__ collision tests.<br/><br/>
+A second approach (a bit more clever one, though) would take advantage of the __commutative nature__ of collisions (i.e *A-collides-B* equals *B-collides-A*).<br/>
+Therefore, the test above should become:
 
+```lua
 for i = 1,99 do
   for j = i,100 do
     collisionTest(object[i], object[j])
   end
 end  
+```
 
-That will result in __4950__ collision tests. This is better, but what if we could narrow down __a lot more__ else the number of collision checks ?
+What will result in __4950__ collision tests.<br/>
+This is __better__, but what if we could narrow down __a lot more__ again the number of required collision checks ?
 
 ##Broad-phase collision detection
-To drastically reduce the number of collision checks we will have to perform, we can perform a __broad-phase__.
-This step identifies __groups of objects that may be colliding__ and excludes those which are not.
-There are various __broad-phase processing__ techniques. Find some implemented in [Lua] in this repository.
-See (Readme.md]() for more details and examples of use
+To drastically reduce the number of collision checks we will have to perform, we can perform a __broad-phase__ collision detection.
+This step identifies __groups of objects that are so close enough that they may potentially collide__.<br/>
+Thus, we can perform an __effective collision check__ on those objects to achieve the same result.
 
-* [Spatial Hashes/Uniform-grid](http://www.gamedev.net/page/resources/_/technical/game-programming/spatial-hashing-r2697)
-
+There are various __broad-phase processing__ techniques. Find some implemented in [Lua](http://www.lua.org) in this repository.<br/>
+See [Readme.md](https://github.com/Yonaba/broad-phase-algorithms/blob/master/README.md) for documentation and examples of use
 
 ##License
 This work is under [MIT-LICENSE](http://www.opensource.org/licenses/mit-license.php)<br/>
