@@ -1,8 +1,9 @@
+luadoc/*
+.gitignore
 conf.lua
 main.lua
+DocGenerate.bat
 helper.lua
 shape.lua
-uniform-grid/luadoc/*
-uniform-grid/DocGenerate.bat
 Thumbs.db
 .DS_Store
