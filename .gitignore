@@ -1,4 +1,7 @@
+conf.lua
 main.lua
+helper.lua
+shape.lua
 uniform-grid/luadoc/*
 uniform-grid/DocGenerate.bat
 Thumbs.db
