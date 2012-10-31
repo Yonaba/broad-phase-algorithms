@@ -1,7 +1,7 @@
 ------------------------------------------------------------------
 -- SpatialHash uniform-grid implementation
 -- Broad-phase algorithm to faster collision detection
--- Roland_Yonaba, SpatialHash.lua,v 0.1.0 2012/29/10
+-- Roland_Yonaba, SpatialHash.lua,v 0.1.1 (2012/29/10)
 ------------------------------------------------------------------
 
 local ceil, max, min = math.ceil, math.max, math.min
@@ -12,6 +12,9 @@ local assert, ipairs, setmetatable = assert, ipairs, setmetatable
 -- Registers colliding shapes
 local array_list = {}
 local array_pairs = {}
+
+-- Unique IDs for each added shape
+local UNIQUE_ID = 0
 
 -- Clamps a value between given bounds
 local function clamp(value, _min, _max)
@@ -63,14 +66,14 @@ function reportColWith(self,aShape,wherex,wherey,list)
 end
 
 -- Registers bounding-box collisions in a array_list of tables
-function reportColPairs(self,aShape,wherex,wherey,list)
+function reportColPairs(self,aShape,wherex,wherey,list,bool)
   local checks = 0
   if outOfRange(wherex,1,self.__cols) then return 0 end
   if outOfRange(wherey,1,self.__rows) then return 0 end
   local hashedIndex = getHashIndex(wherex,wherey,self.__cols)
   local bucket = self.__array[hashedIndex]
 	for _,shape in ipairs(bucket) do
-		if shape ~= aShape then 
+		if shape ~= aShape and (not bool and true or aShape.ID > shape.ID) then 
       if AABBCollides(shape,aShape) then list[#list+1] = {aShape,shape} end
       checks = checks+1
     end
@@ -92,6 +95,10 @@ local function __addShapeToBucket(hash,shape,xmin,ymin)
   local bucketIndex = getHashIndex(xmin,ymin,hash.__cols)
   local bucketIndexSize = #hash.__array[bucketIndex]
   hash.__array[bucketIndex][bucketIndexSize+1]= shape
+  if not shape.ID then 
+    UNIQUE_ID = UNIQUE_ID + 1
+    shape.ID = UNIQUE_ID
+  end
   return bucketIndex
 end
 
@@ -218,8 +225,8 @@ function SpatialHash:getCollidingPairs(shapes)
   local overlapEastBorder
   for i = 1,#shapes do
     _,_,rx,ry = shapes[i]:getAABB()
-    overlapEastBorder = false
-    checks = checks + reportColPairs(self,shapes[i],shapes[i].xmin,shapes[i].ymin,array_pairs)
+    overlapEastBorder = false    
+    checks = checks + reportColPairs(self,shapes[i],shapes[i].xmin,shapes[i].ymin,array_pairs,true)
     checks = checks + reportColPairs(self,shapes[i],shapes[i].xmin-1,shapes[i].ymin+1,array_pairs)
     if (rx/self.cellSize > shapes[i].xmin) then
       overlapEastBorder = true

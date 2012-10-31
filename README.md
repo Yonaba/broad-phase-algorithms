@@ -15,7 +15,7 @@ See [Notes](https://github.com/Yonaba/broad-phase-algorithms/blob/master/Notes.m
 ###Example of use
 
 ```lua
-math.randomseed(os.time())
+math.randomseed(os.clock())
 -- Calls the library
 local SH = require 'spatialhash'
 -- The cellSize for our hash.
