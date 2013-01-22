@@ -157,9 +157,19 @@ function SpatialHash:new(width, height, cellSize)
 end
 
 --- Adds a given shape in a SpatialHash.
+-- The given shape must implement a <tt>getAABB</tt> method returning rectangle bounding vertices coordinates, that is
+-- in order, the upper-left and lower-right corners coordinates
+--<ul><pre class="example">
+--local shape = {x = 10, y = 10, w = 20, h = 20}<br/>
+--function shape:getAABB()
+--<br>  return (self.x, self.y, self.x+self.w,self.y+self.h)<br/>
+--end
+--</pre></ul>
 -- @param shape a <tt>shape</tt>
 function SpatialHash:addShape(shape)
+  assert(pcall(shape.getAABB),'Arg \'shape\' must implement a getAABB() method')
   assert(getShapeSize(shape) <= self.cellSize,'Cannot add shape larger than hash grid cell size')
+  
   local xmin, ymin = shape:getAABB()
   xmin, ymin = spaceToGrid(xmin,ymin,self.cellSize)
   xmin, ymin = clampToGrid(xmin, ymin, self.__cols, self.__rows)

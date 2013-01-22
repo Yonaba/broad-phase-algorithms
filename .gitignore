@@ -2,8 +2,10 @@ luadoc/*
 .gitignore
 conf.lua
 main.lua
-DocGenerate.bat
+*.bat
 helper.lua
 shape.lua
+test.lua
 Thumbs.db
 .DS_Store
+

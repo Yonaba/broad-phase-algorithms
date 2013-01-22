@@ -164,7 +164,7 @@ Instantiates a new spatial hash (synctactic shortcut to <tt>SpatialHash:new()</t
 
 <dt><a name="SpatialHash:addShape"></a><strong>SpatialHash:addShape</strong>&nbsp;(shape)</dt>
 <dd>
-Adds a given shape in a SpatialHash.
+Adds a given shape in a SpatialHash. The given shape must implement a <tt>getAABB</tt> method returning rectangle bounding vertices coordinates, that is in order, the upper-left and lower-right corners coordinates <ul><pre class="example"> local shape = {x = 10, y = 10, w = 20, h = 20}<br/> function shape:getAABB() <br>  return (self.x, self.y, self.x+self.w,self.y+self.h)<br/> end </pre></ul>
 
 
 <h3>Parameters:</h3>
